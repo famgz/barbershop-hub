@@ -1,4 +1,6 @@
+import { searchCategories } from '@/app/constants/categories';
 import BarbershopCard from '@/components/barbershop-card';
+import Footer from '@/components/footer';
 import Header from '@/components/header';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -32,6 +34,16 @@ export default async function Home() {
           <Button>
             <SearchIcon />
           </Button>
+        </div>
+
+        {/* Categories */}
+        <div className="hide-scrollbar flex gap-3 overflow-x-auto">
+          {searchCategories.map((x, i) => (
+            <Button key={i} variant={'secondary'} className="flex-center gap-2">
+              <Image src={x.image} height={16} width={16} alt={x.title} />
+              {x.title}
+            </Button>
+          ))}
         </div>
 
         {/* Banner */}
@@ -102,6 +114,8 @@ export default async function Home() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
