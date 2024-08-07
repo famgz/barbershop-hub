@@ -1,4 +1,4 @@
-import { searchCategories } from '@/app/constants/categories';
+import { searchCategories } from '@/constants/categories';
 import BarbershopCard from '@/components/barbershop-card';
 import BookingCard from '@/components/booking-card';
 import Footer from '@/components/footer';
@@ -59,18 +59,14 @@ export default async function Home() {
 
         {/* Bookings */}
         <div>
-          <h2 className="font-bold uppercase text-muted-foreground">
-            Agendamentos
-          </h2>
+          <h2 className="section-title">Agendamentos</h2>
 
           <BookingCard />
         </div>
 
         {/* Recommended */}
         <div>
-          <h2 className="font-bold uppercase text-muted-foreground">
-            Recomendados
-          </h2>
+          <h2 className="section-title">Recomendados</h2>
 
           <div className="hide-scrollbar mt-2 flex gap-4 overflow-x-auto">
             {barbershops.map((b) => (
@@ -81,9 +77,7 @@ export default async function Home() {
 
         {/* Recommended */}
         <div>
-          <h2 className="font-bold uppercase text-muted-foreground">
-            Populares
-          </h2>
+          <h2 className="section-title">Populares</h2>
 
           <div className="hide-scrollbar mt-2 flex gap-4 overflow-x-auto">
             {popularBarbershops.map((b) => (

@@ -1,3 +1,4 @@
+import MenuButton from '@/components/buttons/menu';
 import Logo from '@/components/icons/logo';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -9,9 +10,8 @@ export default function Header() {
       <Card>
         <CardContent className="flex items-center justify-between p-4">
           <Logo />
-          <Button size={'icon'} variant={'outline'}>
-            <MenuIcon />
-          </Button>
+
+          <MenuButton />
         </CardContent>
       </Card>
     </header>
