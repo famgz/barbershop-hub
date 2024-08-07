@@ -1,13 +1,9 @@
-import { searchCategories } from '@/constants/categories';
 import BarbershopCard from '@/components/barbershop-card';
 import BookingCard from '@/components/booking-card';
-import Footer from '@/components/footer';
 import Header from '@/components/header';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { searchCategories } from '@/constants/categories';
 import { db } from '@/lib/prisma';
 import { SearchIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -86,8 +82,6 @@ export default async function Home() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

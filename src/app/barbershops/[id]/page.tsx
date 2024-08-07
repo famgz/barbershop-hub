@@ -1,8 +1,9 @@
 import BackButton from '@/components/buttons/back';
+import CopyClipboardButton from '@/components/buttons/copy-clipboard';
 import MenuButton from '@/components/buttons/menu';
 import ServiceCard from '@/components/service-card';
 import { db } from '@/lib/prisma';
-import { MapPinIcon, StarIcon } from 'lucide-react';
+import { MapPinIcon, SmartphoneIcon, StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
@@ -70,6 +71,21 @@ export default async function BarbershopPage({ params }: Props) {
         {barbershop.services.map((service) => (
           <ServiceCard service={service} key={service.id} />
         ))}
+      </div>
+
+      {/* Contact */}
+      <div className="space-y-2 p-5">
+        <h2 className="section-title">Contato</h2>
+
+        <div className="space-y-1.5">
+          {barbershop.phones.map((phone) => (
+            <div key={phone} className="flex items-center gap-2">
+              <SmartphoneIcon size={20} />
+              <p className="flex-1 text-sm">{phone}</p>
+              <CopyClipboardButton text={phone}>Copiar</CopyClipboardButton>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
