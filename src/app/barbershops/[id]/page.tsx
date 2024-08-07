@@ -1,5 +1,6 @@
 import BackButton from '@/components/buttons/back';
 import MenuButton from '@/components/buttons/menu';
+import ServiceCard from '@/components/service-card';
 import { db } from '@/lib/prisma';
 import { MapPinIcon, StarIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -16,6 +17,9 @@ export default async function BarbershopPage({ params }: Props) {
 
   const barbershop = await db.barbershop.findUnique({
     where: { id },
+    include: {
+      services: true,
+    },
   });
 
   if (!barbershop) return notFound();
@@ -58,6 +62,14 @@ export default async function BarbershopPage({ params }: Props) {
       <div className="space-y-2 border-b p-5">
         <h2 className="section-title">Sobre nós</h2>
         <p className="text-justify text-sm">{barbershop.description}</p>
+      </div>
+
+      {/* Services */}
+      <div className="space-y-3 border-b p-5">
+        <h2 className="section-title">Serviços</h2>
+        {barbershop.services.map((service) => (
+          <ServiceCard service={service} key={service.id} />
+        ))}
       </div>
     </div>
   );
