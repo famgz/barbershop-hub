@@ -1,5 +1,18 @@
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+'use client';
+
+import LoginGoogleButton from '@/components/buttons/login-google';
+import LogoutButton from '@/components/buttons/logout';
+import GoogleIcon from '@/components/icons/google';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import {
   Sheet,
   SheetClose,
@@ -8,11 +21,21 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { searchCategories } from '@/constants/categories';
-import { CalendarIcon, HomeIcon, LogOutIcon, MenuIcon } from 'lucide-react';
+import {
+  CalendarIcon,
+  HomeIcon,
+  LogInIcon,
+  LogOutIcon,
+  MenuIcon,
+} from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function MenuButton() {
+  const { data } = useSession();
+  const user = data?.user;
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -24,20 +47,46 @@ export default function MenuButton() {
         <SheetHeader className="pb-3 text-left">Menu</SheetHeader>
 
         <div className="hide-scrollbar flex flex-1 flex-col overflow-y-auto">
-          <div className="flex items-center gap-3 border-b py-3">
-            <Avatar>
-              <AvatarImage src="https://github.com/famgz.png" />
-            </Avatar>
-
-            <div>
-              <p className="font-semibold">Senhor App</p>
-              <p className="text-xs">senhor@email.me</p>
-            </div>
+          <div className="border-b py-3">
+            {!user ? (
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="font-bold">Ola, faça seu login</h2>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button size={'icon'}>
+                      <LogInIcon />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[90%] rounded">
+                    <DialogHeader>
+                      <DialogTitle>Faça login na plataforma</DialogTitle>
+                      <DialogDescription>
+                        Conecte-se usando sua conta do Google
+                      </DialogDescription>
+                    </DialogHeader>
+                    <LoginGoogleButton />
+                  </DialogContent>
+                </Dialog>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Avatar>
+                  <AvatarImage src={user?.image || ''} />
+                  <AvatarFallback>
+                    {user.name!.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="space-y-1">
+                  <p className="font-semibold">{user.name}</p>
+                  <p className="text-xs">{user.email}</p>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-2 border-b py-3">
             <SheetClose asChild>
-              <Button className="justify-start gap-2" asChild>
+              <Button className="justify-start gap-2" variant={'ghost'} asChild>
                 <Link href={'/'}>
                   <HomeIcon size={18} />
                   Início
@@ -72,10 +121,7 @@ export default function MenuButton() {
           </div>
 
           <div className="pt-3">
-            <Button variant={'ghost'} className="w-full justify-start gap-2">
-              <LogOutIcon size={18} />
-              Sair da conta
-            </Button>
+            <LogoutButton />
           </div>
         </div>
       </SheetContent>
