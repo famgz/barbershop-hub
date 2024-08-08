@@ -1,6 +1,7 @@
 import BarbershopCard from '@/components/barbershop-card';
 import BookingCard from '@/components/booking-card';
 import Header from '@/components/header';
+import SearchInput from '@/components/inputs/search';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { searchCategories } from '@/constants/categories';
@@ -26,12 +27,7 @@ export default async function Home() {
         </div>
 
         {/* Search */}
-        <div className="flex gap-2">
-          <Input placeholder="Faça sua busca..." />
-          <Button>
-            <SearchIcon />
-          </Button>
-        </div>
+        <SearchInput />
 
         {/* Categories */}
         <div className="hide-scrollbar flex gap-3 overflow-x-auto">

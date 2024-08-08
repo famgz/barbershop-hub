@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from 'sonner';
 import Footer from '@/components/footer';
 import AuthProvider from '@/providers/auth';
+import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,9 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={inter.className}>
+      <body className={cn(inter.className, 'flex flex-col')}>
         <AuthProvider>
-          {children}
+          <div className="flex-1">{children}</div>
           <Footer />
           <Toaster theme="dark" />
         </AuthProvider>
