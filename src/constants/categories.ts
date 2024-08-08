@@ -5,12 +5,12 @@ export interface SearchCategories {
 
 export const searchCategories: SearchCategories[] = [
   {
-    title: 'Cabelo',
-    image: '/scissors.svg',
-  },
-  {
     title: 'Barba',
     image: '/mustache.svg',
+  },
+  {
+    title: 'Cabelo',
+    image: '/scissors.svg',
   },
   {
     title: 'Acabamento',

@@ -71,7 +71,7 @@ async function seedDatabase() {
           'https://utfs.io/f/e6bdffb6-24a9-455b-aba3-903c2c2b5bde-1jo6tu.png',
       },
       {
-        name: 'Pézinho',
+        name: 'Acabamento',
         description: 'Acabamento perfeito para um visual renovado.',
         price: 35.0,
         imageUrl:

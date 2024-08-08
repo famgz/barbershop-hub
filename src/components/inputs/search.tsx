@@ -11,27 +11,28 @@ import {
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SearchIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { FormEvent } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const formSchema = z.object({
-  search: z.string().trim().min(1, 'Digite algo para buscar'),
+  name: z.string().trim().min(1, 'Digite algo para buscar'),
 });
 
 export default function SearchInput() {
+  const searchParams = useSearchParams();
+  const initialSearchParam = searchParams.get('name') || '';
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      search: '',
+      name: initialSearchParam,
     },
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    const { search } = data;
-    router.push(`/barbershops?search=${search}`);
+    const { name } = data;
+    router.push(`/barbershops?name=${name}`);
   }
 
   return (
@@ -39,7 +40,7 @@ export default function SearchInput() {
       <form className="flex gap-2" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
-          name="search"
+          name="name"
           render={({ field }) => (
             <FormItem className="flex-1">
               <FormControl>

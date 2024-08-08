@@ -1,5 +1,5 @@
-import MenuButton from '@/components/buttons/menu';
 import Logo from '@/components/icons/logo';
+import SideBar from '@/components/sidebar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { MenuIcon } from 'lucide-react';
@@ -14,7 +14,7 @@ export default function Header() {
             <Logo />
           </Link>
 
-          <MenuButton />
+          <SideBar />
         </CardContent>
       </Card>
     </header>

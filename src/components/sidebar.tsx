@@ -2,9 +2,8 @@
 
 import LoginGoogleButton from '@/components/buttons/login-google';
 import LogoutButton from '@/components/buttons/logout';
-import GoogleIcon from '@/components/icons/google';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -21,19 +20,16 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { searchCategories } from '@/constants/categories';
-import {
-  CalendarIcon,
-  HomeIcon,
-  LogInIcon,
-  LogOutIcon,
-  MenuIcon,
-} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { CalendarIcon, HomeIcon, LogInIcon, MenuIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-export default function MenuButton() {
+export default function SideBar() {
   const { data } = useSession();
+  const router = useRouter();
   const user = data?.user;
 
   return (
@@ -102,10 +98,13 @@ export default function MenuButton() {
 
           <div className="flex flex-1 flex-col gap-0.5 border-b py-3">
             {searchCategories.map((x) => (
-              <Button
-                className="justify-start gap-2"
-                variant={'ghost'}
+              <SheetClose
                 key={x.title}
+                onClick={() => router.push(`/barbershops?service=${x.title}`)}
+                className={cn(
+                  buttonVariants({ variant: 'ghost' }),
+                  'justify-start gap-2',
+                )}
               >
                 <div className="relative size-[18px]">
                   <Image
@@ -116,7 +115,7 @@ export default function MenuButton() {
                   />
                 </div>
                 {x.title}
-              </Button>
+              </SheetClose>
             ))}
           </div>
 

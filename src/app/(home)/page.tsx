@@ -3,11 +3,10 @@ import BookingCard from '@/components/booking-card';
 import Header from '@/components/header';
 import SearchInput from '@/components/inputs/search';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { searchCategories } from '@/constants/categories';
 import { db } from '@/lib/prisma';
-import { SearchIcon } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function Home() {
   const barbershops = await db.barbershop.findMany({ take: 10 });
@@ -29,12 +28,19 @@ export default async function Home() {
         {/* Search */}
         <SearchInput />
 
-        {/* Categories */}
-        <div className="hide-scrollbar flex gap-3 overflow-x-auto">
+        {/* Services */}
+        <div className="hide-scrollbar -mr-5 flex gap-3 overflow-x-auto">
           {searchCategories.map((x, i) => (
-            <Button key={i} variant={'secondary'} className="flex-center gap-2">
-              <Image src={x.image} height={16} width={16} alt={x.title} />
-              {x.title}
+            <Button
+              key={i}
+              variant={'secondary'}
+              className="flex-center gap-2"
+              asChild
+            >
+              <Link href={`/barbershops?service=${x.title}`}>
+                <Image src={x.image} height={16} width={16} alt={x.title} />
+                {x.title}
+              </Link>
             </Button>
           ))}
         </div>

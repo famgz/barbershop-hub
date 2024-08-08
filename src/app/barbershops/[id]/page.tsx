@@ -1,6 +1,6 @@
 import BackButton from '@/components/buttons/back';
 import CopyClipboardButton from '@/components/buttons/copy-clipboard';
-import MenuButton from '@/components/buttons/menu';
+import MenuButton from '@/components/menu';
 import ServiceCard from '@/components/service-card';
 import { db } from '@/lib/prisma';
 import { MapPinIcon, SmartphoneIcon, StarIcon } from 'lucide-react';

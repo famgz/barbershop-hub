@@ -6,21 +6,46 @@ import { Barbershop } from '@prisma/client';
 
 interface Props {
   searchParams?: {
-    search: string;
+    name: string;
+    service: string;
   };
 }
 
 export default async function BarbershopsPage({ searchParams }: Props) {
-  const search = searchParams?.search;
+  const name = searchParams?.name;
+  const service = searchParams?.service;
   let barbershops: Barbershop[] = [];
 
-  if (search) {
+  if (name || service) {
     barbershops = await db.barbershop.findMany({
       where: {
-        name: { contains: search, mode: 'insensitive' },
+        OR: [
+          name
+            ? {
+                name: { contains: name, mode: 'insensitive' },
+              }
+            : {},
+
+          service
+            ? {
+                services: {
+                  some: {
+                    name: {
+                      contains: service,
+                      mode: 'insensitive',
+                    },
+                  },
+                },
+              }
+            : {},
+        ],
       },
     });
+  } else {
+    barbershops = await db.barbershop.findMany({});
   }
+
+  console.log('length:', barbershops.length);
 
   return (
     <div>
@@ -28,19 +53,19 @@ export default async function BarbershopsPage({ searchParams }: Props) {
       <div className="space-y-6 p-5">
         <SearchInput />
 
-        {!!search && (
-          <>
-            <h2 className="section-title">Resultados para {`"${search}"`}</h2>
+        <h2 className="section-title">
+          {!!(name || service) ? (
+            <>Resultados para {`"${name || service}"`}</>
+          ) : (
+            'Todas as Barbearias'
+          )}
+        </h2>
 
-            {barbershops.length > 0 && (
-              <div className="grid grid-cols-2 gap-4">
-                {barbershops.map((b) => (
-                  <BarbershopCard key={b.id} barbershop={b} />
-                ))}
-              </div>
-            )}
-          </>
-        )}
+        <div className="grid grid-cols-2 gap-4">
+          {barbershops.map((b) => (
+            <BarbershopCard key={b.id} barbershop={b} />
+          ))}
+        </div>
       </div>
     </div>
   );
