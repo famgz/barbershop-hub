@@ -1,7 +1,7 @@
 import BackButton from '@/components/buttons/back';
 import CopyClipboardButton from '@/components/buttons/copy-clipboard';
-import MenuButton from '@/components/menu';
 import ServiceCard from '@/components/service-card';
+import SideBar from '@/components/sidebar';
 import { db } from '@/lib/prisma';
 import { MapPinIcon, SmartphoneIcon, StarIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -40,7 +40,7 @@ export default async function BarbershopPage({ params }: Props) {
         </div>
 
         <div className="absolute right-4 top-4">
-          <MenuButton />
+          <SideBar />
         </div>
       </div>
 

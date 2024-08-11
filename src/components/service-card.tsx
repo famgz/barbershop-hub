@@ -1,13 +1,31 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent } from '@/components/ui/card';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { BarbershopService } from '@prisma/client';
+import { ptBR } from 'date-fns/locale';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface Props {
   service: BarbershopService;
 }
 
 export default function ServiceCard({ service }: Props) {
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+
+  function handleDateSelect(date: Date | undefined) {
+    setSelectedDate(date);
+  }
+
   return (
     <Card>
       <CardContent className="flex items-center gap-3 p-3">
@@ -38,9 +56,53 @@ export default function ServiceCard({ service }: Props) {
               }).format(Number(service.price))}
             </p>
 
-            <Button variant={'secondary'} size={'sm'}>
-              Reservar
-            </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant={'secondary'} size={'sm'}>
+                  Reservar
+                </Button>
+              </SheetTrigger>
+
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Fazer Reserva</SheetTitle>
+                </SheetHeader>
+
+                <div className="py-5">
+                  <Calendar
+                    mode="single"
+                    locale={ptBR}
+                    selected={selectedDate}
+                    onSelect={handleDateSelect}
+                    styles={{
+                      head_cell: {
+                        width: '100%',
+                        textTransform: 'capitalize',
+                      },
+                      cell: {
+                        width: '100%',
+                      },
+                      button: {
+                        width: '100%',
+                      },
+                      nav_button_previous: {
+                        width: '32px',
+                        height: '32px',
+                      },
+                      nav_button_next: {
+                        width: '32px',
+                        height: '32px',
+                      },
+                      caption: {
+                        textTransform: 'capitalize',
+                      },
+                    }}
+                  />
+                </div>
+
+                <div></div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </CardContent>

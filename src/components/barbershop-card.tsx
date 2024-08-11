@@ -39,6 +39,7 @@ export default function BarbershopCard({ barbershop }: Props) {
           <p className="truncate text-xs text-muted-foreground">
             {barbershop.address}
           </p>
+
           <Button variant={'secondary'} className="mt-3 w-full" asChild>
             <Link href={`/barbershops/${barbershop.id}`}>Reservar</Link>
           </Button>
