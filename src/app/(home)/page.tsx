@@ -68,7 +68,7 @@ export default async function Home() {
         </div>
 
         {/* Bookings */}
-        <div>
+        <div className="">
           <h2 className="section-title">Agendamentos</h2>
 
           <BookingCard />
@@ -78,7 +78,7 @@ export default async function Home() {
         <div>
           <h2 className="section-title">Recomendados</h2>
 
-          <div className="hide-scrollbar mt-2 flex gap-4 overflow-x-auto">
+          <div className="hide-scrollbar -mr-5 mt-2 flex gap-4 overflow-x-auto">
             {barbershops.map((b) => (
               <BarbershopCard key={b.id} barbershop={b} />
             ))}
@@ -89,7 +89,7 @@ export default async function Home() {
         <div>
           <h2 className="section-title">Populares</h2>
 
-          <div className="hide-scrollbar mt-2 flex gap-4 overflow-x-auto">
+          <div className="hide-scrollbar -mr-5 mt-2 flex gap-4 overflow-x-auto">
             {popularBarbershops.map((b) => (
               <BarbershopCard key={b.id} barbershop={b} />
             ))}

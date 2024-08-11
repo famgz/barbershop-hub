@@ -1,6 +1,6 @@
 'use client';
 
-import { createBooking } from '@/actions/create-booking';
+import { createBooking, getBookings } from '@/actions/booking';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,14 +12,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { db } from '@/lib/prisma';
 import { formatCurrency } from '@/lib/utils';
-import { BarbershopService } from '@prisma/client';
-import { format, set, setHours, setMinutes } from 'date-fns';
+import { BarbershopService, Booking } from '@prisma/client';
+import { addDays, format, set } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 const TIME_LIST = [
@@ -66,6 +66,14 @@ const TIME_LIST = [
   '18:00',
 ];
 
+function getAvailableServiceTimes(bookings: Booking[]) {
+  const bookedTimes = bookings.map((x) => format(x.date, 'hh:mm'));
+  const availableTimes = TIME_LIST.filter(
+    (time) => !bookedTimes.some((x) => x === time),
+  );
+  return availableTimes;
+}
+
 interface Props {
   service: BarbershopService;
   barbershopName: string;
@@ -73,8 +81,36 @@ interface Props {
 
 export default function ServiceCard({ service, barbershopName }: Props) {
   const { data } = useSession();
+  const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [selectedTime, setSelectedTime] = useState('');
+  const [selectedTime, setSelectedTime] = useState<String | undefined>(
+    undefined,
+  );
+  const [dayBookings, setDayBookings] = useState<Booking[]>([]);
+  const [isBookingSheetOpen, setIsBookingSheetOpen] = useState(false);
+
+  useEffect(() => {
+    async function fetch() {
+      if (!(selectedDate && service?.id)) return;
+      const bookings = await getBookings({
+        serviceId: service.id,
+        date: selectedDate,
+      });
+
+      setDayBookings(bookings);
+    }
+    fetch();
+  }, [selectedDate, service?.id]);
+
+  useEffect(() => {
+    function resetSelectedStatesWhenSheetCloses() {
+      if (!isBookingSheetOpen) {
+        setSelectedDate(undefined);
+        setSelectedTime(undefined);
+      }
+    }
+    resetSelectedStatesWhenSheetCloses();
+  }, [isBookingSheetOpen]);
 
   function handleDateSelect(date: Date | undefined) {
     setSelectedDate(date);
@@ -135,7 +171,10 @@ export default function ServiceCard({ service, barbershopName }: Props) {
               {formatCurrency(service.price)}
             </p>
 
-            <Sheet>
+            <Sheet
+              open={isBookingSheetOpen}
+              onOpenChange={setIsBookingSheetOpen}
+            >
               <SheetTrigger asChild>
                 <Button variant={'secondary'} size={'sm'}>
                   Reservar
@@ -153,6 +192,7 @@ export default function ServiceCard({ service, barbershopName }: Props) {
                     locale={ptBR}
                     selected={selectedDate}
                     onSelect={handleDateSelect}
+                    fromDate={addDays(new Date(), 1)}
                     styles={{
                       head_cell: {
                         width: '100%',
@@ -189,7 +229,7 @@ export default function ServiceCard({ service, barbershopName }: Props) {
                 {selectedDate && (
                   <div className="hide-scrollbar overflow-x-auto border-b p-5">
                     <div className="flex items-center gap-2">
-                      {TIME_LIST.map((time) => (
+                      {getAvailableServiceTimes(dayBookings).map((time) => (
                         <Button
                           key={time}
                           className="rounded-full text-xs"
