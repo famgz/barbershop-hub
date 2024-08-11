@@ -2,6 +2,7 @@ import BarbershopCard from '@/components/barbershop-card';
 import Header from '@/components/header';
 import SearchInput from '@/components/inputs/search';
 import { db } from '@/lib/prisma';
+import { plainify } from '@/lib/utils';
 import { Barbershop } from '@prisma/client';
 
 interface Props {
@@ -45,7 +46,7 @@ export default async function BarbershopsPage({ searchParams }: Props) {
     barbershops = await db.barbershop.findMany({});
   }
 
-  console.log('length:', barbershops.length);
+  barbershops = plainify(barbershops);
 
   return (
     <div>

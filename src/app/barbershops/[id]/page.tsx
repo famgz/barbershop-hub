@@ -3,6 +3,7 @@ import CopyClipboardButton from '@/components/buttons/copy-clipboard';
 import ServiceCard from '@/components/service-card';
 import SideBar from '@/components/sidebar';
 import { db } from '@/lib/prisma';
+import { plainify } from '@/lib/utils';
 import { MapPinIcon, SmartphoneIcon, StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -16,7 +17,7 @@ interface Props {
 export default async function BarbershopPage({ params }: Props) {
   const { id } = params;
 
-  const barbershop = await db.barbershop.findUnique({
+  let barbershop = await db.barbershop.findUnique({
     where: { id },
     include: {
       services: true,
@@ -24,6 +25,8 @@ export default async function BarbershopPage({ params }: Props) {
   });
 
   if (!barbershop) return notFound();
+
+  barbershop = plainify(barbershop);
 
   return (
     <div>
@@ -69,7 +72,11 @@ export default async function BarbershopPage({ params }: Props) {
       <div className="space-y-3 border-b p-5">
         <h2 className="section-title">Serviços</h2>
         {barbershop.services.map((service) => (
-          <ServiceCard service={service} key={service.id} />
+          <ServiceCard
+            barbershopName={barbershop.name}
+            service={service}
+            key={service.id}
+          />
         ))}
       </div>
 
