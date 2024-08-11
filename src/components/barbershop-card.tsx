@@ -15,7 +15,7 @@ export default function BarbershopCard({ barbershop }: Props) {
     <Card className="max-w-[168px] rounded-2xl">
       <CardContent className="space-y-1 p-1">
         {/* Image */}
-        <div className="relative h-[160px] overflow-hidden rounded-2xl">
+        <div className="relative size-[160px] shrink-0 overflow-hidden rounded-2xl">
           <Image
             src={barbershop.imageUrl}
             className="object-cover"
