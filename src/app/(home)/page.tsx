@@ -1,3 +1,4 @@
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import BarbershopCard from '@/components/barbershop-card';
 import BookingCard from '@/components/booking-card';
 import Header from '@/components/header';
@@ -5,11 +6,18 @@ import SearchInput from '@/components/inputs/search';
 import { Button } from '@/components/ui/button';
 import { searchCategories } from '@/constants/categories';
 import { db } from '@/lib/prisma';
+import { plainify } from '@/lib/utils';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function Home() {
-  const barbershops = await db.barbershop.findMany({ take: 10 });
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+
+  const barbershops = plainify(await db.barbershop.findMany({ take: 10 }));
   const popularBarbershops = Array.from(barbershops).sort((a, b) =>
     b.name.localeCompare(a.name),
   );
@@ -21,8 +29,12 @@ export default async function Home() {
       <div className="space-y-6 p-5">
         {/* Greetings */}
         <div>
-          <h2 className="text-xl font-bold">Olá, Senhor!</h2>
-          <p>Sexta-feira, 2 de fevereiro.</p>
+          <h2 className="text-xl font-bold">
+            Olá, {user ? user.name.split(' ')[0] : 'visitante'}!
+          </h2>
+          <p className="">
+            {format(new Date(), "eeee',' d 'de' MMMM", { locale: ptBR })}
+          </p>
         </div>
 
         {/* Search */}
@@ -46,7 +58,7 @@ export default async function Home() {
         </div>
 
         {/* Banner */}
-        <div className="relative h-[150px] w-full overflow-hidden rounded-xl">
+        <div className="relative aspect-[700/300] h-auto w-full overflow-hidden rounded-xl">
           <Image
             src="/banner-01.png"
             alt="Agende com as melhores barbers"
