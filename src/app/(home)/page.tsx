@@ -36,7 +36,7 @@ export default async function Home() {
         {/* Greetings */}
         <div>
           <h2 className="text-xl font-bold">
-            Olá, {user ? user.name.split(' ')[0] : 'visitante'}!
+            {user ? `Olá, ${user.name.split(' ')[0]}` : 'Bem vindo'}!
           </h2>
           <p className="">
             {format(new Date(), "eeee',' d 'de' MMMM", { locale: ptBR })}
