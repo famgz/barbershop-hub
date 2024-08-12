@@ -56,5 +56,5 @@
 }
 
 .section-title {
-  @apply font-semibold uppercase text-muted-foreground;
+  @apply text-sm uppercase text-muted-foreground;
 }

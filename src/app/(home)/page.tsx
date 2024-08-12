@@ -1,3 +1,4 @@
+import { getBookingsByUser } from '@/actions/booking';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import BarbershopCard from '@/components/barbershop-card';
 import BookingCard from '@/components/booking-card';
@@ -7,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { searchCategories } from '@/constants/categories';
 import { db } from '@/lib/prisma';
 import { plainify } from '@/lib/utils';
-import { format } from 'date-fns';
+import { format, isPast } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
@@ -21,6 +22,11 @@ export default async function Home() {
   const popularBarbershops = Array.from(barbershops).sort((a, b) =>
     b.name.localeCompare(a.name),
   );
+
+  const userBookings = user ? await getBookingsByUser() : null;
+  const confirmedUserBookings = userBookings
+    ? userBookings?.filter((x) => !isPast(x.date))
+    : [];
 
   return (
     <div>
@@ -67,12 +73,19 @@ export default async function Home() {
           />
         </div>
 
-        {/* Bookings */}
-        <div className="">
-          <h2 className="section-title">Agendamentos</h2>
-
-          <BookingCard />
-        </div>
+        {/* User Bookings */}
+        {user && (
+          <div className="">
+            <h2 className="section-title">Agendamentos</h2>
+            {confirmedUserBookings?.length > 0 ? (
+              confirmedUserBookings.map((booking) => (
+                <BookingCard booking={booking} key={booking.id} />
+              ))
+            ) : (
+              <span className="py-3">Não há reservas agendadas</span>
+            )}
+          </div>
+        )}
 
         {/* Recommended */}
         <div>

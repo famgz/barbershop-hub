@@ -17,7 +17,6 @@ import { cn } from '@/lib/utils';
 import { CalendarIcon, HomeIcon, LogInIcon, MenuIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function SideBar() {

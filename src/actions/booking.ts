@@ -28,7 +28,7 @@ interface GetBookingsProps {
   date: Date;
 }
 
-export async function getBookings({ serviceId, date }: GetBookingsProps) {
+export async function getBookingsByDate({ serviceId, date }: GetBookingsProps) {
   const bookings = await db.booking.findMany({
     where: {
       serviceId,
@@ -39,6 +39,20 @@ export async function getBookings({ serviceId, date }: GetBookingsProps) {
     },
   });
   revalidatePath('/barbershops/[id]');
+
+  return plainify(bookings);
+}
+
+export async function getBookingsByUser() {
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+  if (!user) throw new Error('Usuário não autenticado');
+
+  const bookings = await db.booking.findMany({
+    where: { userId: user.id },
+    include: { service: { include: { barbershop: true } } },
+    orderBy: { date: 'asc' },
+  });
 
   return plainify(bookings);
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { createBooking, getBookings } from '@/actions/booking';
+import { createBooking, getBookingsByDate } from '@/actions/booking';
 import LoginDialog from '@/components/login-dialog';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -12,7 +12,6 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from '@/components/ui/sheet';
 import { formatCurrency } from '@/lib/utils';
 import { BarbershopService, Booking } from '@prisma/client';
@@ -20,7 +19,6 @@ import { addDays, format, set } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -94,7 +92,7 @@ export default function ServiceCard({ service, barbershopName }: Props) {
   useEffect(() => {
     async function fetch() {
       if (!(selectedDate && service?.id)) return;
-      const bookings = await getBookings({
+      const bookings = await getBookingsByDate({
         serviceId: service.id,
         date: selectedDate,
       });
