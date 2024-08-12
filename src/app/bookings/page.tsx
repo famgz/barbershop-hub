@@ -1,6 +1,6 @@
 import { getBookingsByUser } from '@/actions/booking';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import BookingCard from '@/components/booking-card';
+import BookingItem from '@/components/booking-item';
 import Header from '@/components/header';
 import { isFuture, isPast } from 'date-fns';
 import { getServerSession } from 'next-auth';
@@ -27,14 +27,14 @@ export default async function BookingsPage() {
         <div className="space-y-3">
           <h2 className="section-title">Confirmados</h2>
           {confirmedBookings.map((booking) => (
-            <BookingCard key={booking.id} booking={booking} />
+            <BookingItem key={booking.id} booking={booking} />
           ))}
         </div>
 
         <div className="space-y-3">
           <h2 className="section-title">Finalizados</h2>
           {finishedBookings.map((booking) => (
-            <BookingCard key={booking.id} booking={booking} />
+            <BookingItem key={booking.id} booking={booking} />
           ))}
         </div>
       </div>

@@ -16,7 +16,7 @@ export default function BookingCard({ booking }: Props) {
     <Card className="mt-2">
       <CardContent className="flex p-0">
         {/* left column */}
-        <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="flex flex-1 flex-col gap-2 p-4 text-left">
           <BookingBadge date={booking.date} />
           <h3 className="font-semibold">{booking.service.name}</h3>
 

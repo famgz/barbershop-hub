@@ -1,7 +1,7 @@
 import { getBookingsByUser } from '@/actions/booking';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import BarbershopCard from '@/components/barbershop-card';
-import BookingCard from '@/components/booking-card';
+import BookingItem from '@/components/booking-item';
 import Header from '@/components/header';
 import SearchInput from '@/components/inputs/search';
 import { Button } from '@/components/ui/button';
@@ -52,7 +52,7 @@ export default async function Home() {
             <Button
               key={i}
               variant={'secondary'}
-              className="flex-center gap-2"
+              className="flex-center gap-2 px-5"
               asChild
             >
               <Link href={`/barbershops?service=${x.title}`}>
@@ -79,7 +79,7 @@ export default async function Home() {
             <h2 className="section-title">Agendamentos</h2>
             {confirmedUserBookings?.length > 0 ? (
               confirmedUserBookings.map((booking) => (
-                <BookingCard booking={booking} key={booking.id} />
+                <BookingItem booking={booking} key={booking.id} />
               ))
             ) : (
               <span className="py-3">Não há reservas agendadas</span>

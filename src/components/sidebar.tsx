@@ -66,7 +66,7 @@ export default function SideBar() {
             )}
           </div>
 
-          <div className="flex flex-col gap-2 border-b py-3">
+          <div className="flex flex-col gap-0.5 border-b py-3">
             <SheetClose
               className={cn(
                 buttonVariants({ variant: 'ghost' }),

@@ -2,6 +2,7 @@
 
 import { createBooking, getBookingsByDate } from '@/actions/booking';
 import LoginDialog from '@/components/login-dialog';
+import ServiceInfoCard from '@/components/service-info-card';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -82,7 +83,7 @@ interface Props {
 export default function ServiceCard({ service, barbershopName }: Props) {
   const { data } = useSession();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [selectedTime, setSelectedTime] = useState<String | undefined>(
+  const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
   );
   const [dayBookings, setDayBookings] = useState<Booking[]>([]);
@@ -255,41 +256,12 @@ export default function ServiceCard({ service, barbershopName }: Props) {
                   {/* Resevation details */}
                   {selectedDate && selectedTime && (
                     <div className="flex flex-1 flex-col justify-between gap-5 p-5">
-                      <Card>
-                        <CardContent className="space-y-2 p-3 text-xs font-light">
-                          <div className="flex items-center justify-between">
-                            <h2 className="font-semibold">{service.name}</h2>
-                            <p className="font-semibold">
-                              {formatCurrency(service.price)}
-                            </p>
-                          </div>
-
-                          <div className="flex items-center justify-between">
-                            <h2 className="font-light text-muted-foreground">
-                              Data
-                            </h2>
-                            <p className="">
-                              {format(selectedDate, "d 'de' MMMM", {
-                                locale: ptBR,
-                              })}
-                            </p>
-                          </div>
-
-                          <div className="flex items-center justify-between">
-                            <h2 className="font-light text-muted-foreground">
-                              Horário
-                            </h2>
-                            <p className="">{selectedTime}</p>
-                          </div>
-
-                          <div className="flex items-center justify-between">
-                            <h2 className="font-light text-muted-foreground">
-                              Barbearia
-                            </h2>
-                            <p className="">{barbershopName}</p>
-                          </div>
-                        </CardContent>
-                      </Card>
+                      <ServiceInfoCard
+                        service={service}
+                        barbershopName={barbershopName}
+                        date={selectedDate}
+                        time={selectedTime}
+                      />
 
                       <SheetClose asChild>
                         <Button
