@@ -34,12 +34,15 @@ export default async function Home() {
 
       <div className="space-y-6 p-5">
         {/* Greetings */}
-        <div>
+        <div className="space-y-1">
           <h2 className="text-xl font-bold">
             {user ? `Olá, ${user.name.split(' ')[0]}` : 'Bem vindo'}!
           </h2>
-          <p className="">
-            {format(new Date(), "eeee',' d 'de' MMMM", { locale: ptBR })}
+          <p className="text-sm">
+            <span className="capitalize">
+              {format(new Date(), 'EEEE, ', { locale: ptBR })}
+            </span>
+            {format(new Date(), "d 'de' MMMM", { locale: ptBR })}
           </p>
         </div>
 
@@ -77,13 +80,15 @@ export default async function Home() {
         {user && (
           <div className="">
             <h2 className="section-title">Agendamentos</h2>
-            {confirmedUserBookings?.length > 0 ? (
-              confirmedUserBookings.map((booking) => (
-                <BookingItem booking={booking} key={booking.id} />
-              ))
-            ) : (
-              <span className="py-3">Não há reservas agendadas</span>
-            )}
+            <div className="flex flex-wrap gap-2">
+              {confirmedUserBookings?.length > 0 ? (
+                confirmedUserBookings.map((booking) => (
+                  <BookingItem booking={booking} key={booking.id} />
+                ))
+              ) : (
+                <span className="py-3">Não há reservas agendadas</span>
+              )}
+            </div>
           </div>
         )}
 

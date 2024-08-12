@@ -60,7 +60,7 @@ export default function SideBar() {
                 </Avatar>
                 <div className="space-y-1">
                   <p className="font-semibold">{user.name}</p>
-                  <p className="text-xs">{user.email}</p>
+                  <p className="text-xs text-muted-foreground">{user.email}</p>
                 </div>
               </div>
             )}
