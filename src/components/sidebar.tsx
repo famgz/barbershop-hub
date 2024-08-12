@@ -68,19 +68,29 @@ export default function SideBar() {
           </div>
 
           <div className="flex flex-col gap-2 border-b py-3">
-            <SheetClose asChild>
-              <Button className="justify-start gap-2" variant={'ghost'} asChild>
-                <Link href={'/'}>
-                  <HomeIcon size={18} />
-                  Início
-                </Link>
-              </Button>
+            <SheetClose
+              className={cn(
+                buttonVariants({ variant: 'ghost' }),
+                'justify-start gap-2',
+              )}
+              onClick={() => router.push(`/bookings`)}
+            >
+              <HomeIcon size={18} />
+              Início
             </SheetClose>
 
-            <Button className="justify-start gap-2" variant={'ghost'}>
-              <CalendarIcon size={18} />
-              Agendamentos
-            </Button>
+            {user && (
+              <SheetClose
+                className={cn(
+                  buttonVariants({ variant: 'ghost' }),
+                  'justify-start gap-2',
+                )}
+                onClick={() => router.push(`/bookings`)}
+              >
+                <CalendarIcon size={18} />
+                Agendamentos
+              </SheetClose>
+            )}
           </div>
 
           <div className="flex flex-1 flex-col gap-0.5 py-3">
