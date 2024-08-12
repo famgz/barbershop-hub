@@ -1,18 +1,10 @@
 'use client';
 
-import LoginGoogleButton from '@/components/buttons/login-google';
 import LogoutButton from '@/components/buttons/logout';
 import LoginDialog from '@/components/login-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button, buttonVariants } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import {
   Sheet,
   SheetClose,
@@ -91,7 +83,7 @@ export default function SideBar() {
             </Button>
           </div>
 
-          <div className="flex flex-1 flex-col gap-0.5 border-b py-3">
+          <div className="flex flex-1 flex-col gap-0.5 py-3">
             {searchCategories.map((x) => (
               <SheetClose
                 key={x.title}
@@ -114,9 +106,11 @@ export default function SideBar() {
             ))}
           </div>
 
-          <div className="pt-3">
-            <LogoutButton />
-          </div>
+          {user && (
+            <div className="border-t pt-3">
+              <LogoutButton />
+            </div>
+          )}
         </div>
       </SheetContent>
     </Sheet>
