@@ -39,7 +39,7 @@ export async function getBookingsByDate({ serviceId, date }: GetBookingsProps) {
       },
     },
   });
-  revalidatePath('/barbershops/[id]');
+  revalidatePath('/barbershops/[id]', 'page');
 
   return plainify(bookings);
 }

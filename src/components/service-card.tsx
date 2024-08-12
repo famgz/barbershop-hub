@@ -16,13 +16,12 @@ import {
 } from '@/components/ui/sheet';
 import { formatCurrency } from '@/lib/utils';
 import { BarbershopService, Booking } from '@prisma/client';
-import { addDays, format, set } from 'date-fns';
+import { addDays, format, isFuture, isSameDay, set } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Router } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 const TIME_LIST = [
@@ -69,11 +68,28 @@ const TIME_LIST = [
   '18:00',
 ];
 
-function getAvailableServiceTimes(bookings: Booking[]) {
-  const bookedTimes = bookings.map((x) => format(x.date, 'hh:mm'));
-  const availableTimes = TIME_LIST.filter(
-    (time) => !bookedTimes.some((x) => x === time),
-  );
+interface getAvailableServiceTimesProps {
+  selectedDate: Date;
+  dayBookings: Booking[];
+}
+
+function getAvailableServiceTimes({
+  selectedDate,
+  dayBookings,
+}: getAvailableServiceTimesProps) {
+  const bookedTimes = dayBookings.map((x) => format(x.date, 'HH:mm'));
+  const now = new Date();
+  const availableTimes = TIME_LIST.filter((time) => {
+    const isTimeAvailable = !bookedTimes.some((x) => x === time);
+
+    let isTimeFuture = true;
+    if (isSameDay(selectedDate, now)) {
+      const [hours, minutes] = time.split(':').map(Number);
+      isTimeFuture = isFuture(set(now, { hours, minutes }));
+    }
+
+    return isTimeAvailable && isTimeFuture;
+  });
   return availableTimes;
 }
 
@@ -115,6 +131,14 @@ export default function ServiceCard({ service, barbershopName }: Props) {
     }
     resetSelectedStatesWhenSheetCloses();
   }, [isBookingSheetOpen]);
+
+  const availableTimesList = useMemo(() => {
+    if (!selectedDate) return [];
+    return getAvailableServiceTimes({
+      selectedDate,
+      dayBookings,
+    });
+  }, [dayBookings, selectedDate]);
 
   function handleDateSelect(date: Date | undefined) {
     setSelectedDate(date);
@@ -209,7 +233,7 @@ export default function ServiceCard({ service, barbershopName }: Props) {
                       locale={ptBR}
                       selected={selectedDate}
                       onSelect={handleDateSelect}
-                      fromDate={addDays(new Date(), 1)}
+                      fromDate={addDays(new Date(), 0)}
                       styles={{
                         head_cell: {
                           width: '100%',
@@ -246,18 +270,24 @@ export default function ServiceCard({ service, barbershopName }: Props) {
                   {selectedDate && (
                     <div className="hide-scrollbar overflow-x-auto border-b p-5">
                       <div className="flex items-center gap-2">
-                        {getAvailableServiceTimes(dayBookings).map((time) => (
-                          <Button
-                            key={time}
-                            className="rounded-full text-xs"
-                            variant={
-                              time === selectedTime ? 'default' : 'outline'
-                            }
-                            onClick={() => handleTimeSelect(time)}
-                          >
-                            {time}
-                          </Button>
-                        ))}
+                        {availableTimesList.length > 0 ? (
+                          availableTimesList.map((time) => (
+                            <Button
+                              key={time}
+                              className="rounded-full text-xs"
+                              variant={
+                                time === selectedTime ? 'default' : 'outline'
+                              }
+                              onClick={() => handleTimeSelect(time)}
+                            >
+                              {time}
+                            </Button>
+                          ))
+                        ) : (
+                          <p className="text-xs text-muted-foreground">
+                            Não há horários disponíveis para este dia
+                          </p>
+                        )}
                       </div>
                     </div>
                   )}
