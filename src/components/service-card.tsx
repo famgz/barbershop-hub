@@ -139,7 +139,6 @@ export default function ServiceCard({ service, barbershopName }: Props) {
 
       await createBooking({
         serviceId: service.id,
-        userId: data.user.id,
         date: newDate,
       });
 

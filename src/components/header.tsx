@@ -1,11 +1,11 @@
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import Logo from '@/components/icons/logo';
 import SideBar from '@/components/sidebar';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { MenuIcon } from 'lucide-react';
+import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 
-export default function Header() {
+export default async function Header() {
   return (
     <header>
       <Card>
