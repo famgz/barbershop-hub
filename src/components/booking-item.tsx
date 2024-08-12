@@ -37,7 +37,7 @@ export default function BookingItem({ booking }: Props) {
 
   return (
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-      <SheetTrigger className="w-full cursor-pointer">
+      <SheetTrigger className="w-full max-w-[360px] cursor-pointer">
         <BookingCard booking={booking} />
       </SheetTrigger>
 

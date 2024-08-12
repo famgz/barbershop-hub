@@ -51,7 +51,7 @@ export default async function BarbershopsPage({ searchParams }: Props) {
   return (
     <div>
       <Header />
-      <div className="space-y-6 p-5">
+      <div className="container space-y-6 p-5">
         <SearchInput />
 
         <h2 className="section-title">
@@ -62,7 +62,7 @@ export default async function BarbershopsPage({ searchParams }: Props) {
           )}
         </h2>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-wrap gap-2 sm:gap-4">
           {barbershops.map((b) => (
             <BarbershopCard key={b.id} barbershop={b} />
           ))}

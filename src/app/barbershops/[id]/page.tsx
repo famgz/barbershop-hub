@@ -1,11 +1,10 @@
 import BarbershopContactItem from '@/components/barbershop-contact-item';
 import BackButton from '@/components/buttons/back';
-import CopyClipboardButton from '@/components/buttons/copy-clipboard';
 import ServiceCard from '@/components/service-card';
 import SideBar from '@/components/sidebar';
 import { db } from '@/lib/prisma';
 import { plainify } from '@/lib/utils';
-import { MapPinIcon, SmartphoneIcon, StarIcon } from 'lucide-react';
+import { MapPinIcon, StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
@@ -30,7 +29,7 @@ export default async function BarbershopPage({ params }: Props) {
   barbershop = plainify(barbershop);
 
   return (
-    <div>
+    <div className="container">
       {/* Image */}
       <div className="relative h-[250px] w-full">
         <Image

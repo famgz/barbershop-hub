@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer>
       <Card>
-        <CardContent className="p-6">
+        <CardContent className="container p-6">
           <p className="text-sm text-muted-foreground">
             © 2024 Copyright <span className="font-bold">FSW Barber</span>
           </p>

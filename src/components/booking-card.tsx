@@ -13,7 +13,7 @@ interface Props {
 
 export default function BookingCard({ booking }: Props) {
   return (
-    <Card className="mt-2">
+    <Card>
       <CardContent className="flex p-0">
         {/* left column */}
         <div className="flex flex-1 flex-col gap-2 p-4 text-left">

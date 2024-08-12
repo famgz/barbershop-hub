@@ -32,7 +32,7 @@ export default async function Home() {
     <div>
       <Header />
 
-      <div className="space-y-6 p-5">
+      <div className="container space-y-6 p-5">
         {/* Greetings */}
         <div className="space-y-1">
           <h2 className="text-xl font-bold">
@@ -67,7 +67,7 @@ export default async function Home() {
         </div>
 
         {/* Banner */}
-        <div className="relative aspect-[700/300] h-auto w-full overflow-hidden rounded-xl">
+        <div className="relative aspect-[700/300] h-auto max-h-[250px] w-full overflow-hidden rounded-xl">
           <Image
             src="/banner-01.png"
             alt="Agende com as melhores barbers"

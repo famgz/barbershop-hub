@@ -21,29 +21,33 @@ export default async function BookingsPage() {
     <>
       <Header />
 
-      <div className="space-y-6 p-5">
+      <div className="container space-y-6 p-5">
         <h1 className="text-xl font-semibold">Agendamentos</h1>
 
         <div className="space-y-2">
           <h2 className="section-title">Confirmados</h2>
-          {confirmedBookings.length > 0 ? (
-            confirmedBookings.map((booking) => (
-              <BookingItem key={booking.id} booking={booking} />
-            ))
-          ) : (
-            <p className="text-sm">Não há reservas confirmadas</p>
-          )}
+          <div className="flex flex-wrap gap-2">
+            {confirmedBookings.length > 0 ? (
+              confirmedBookings.map((booking) => (
+                <BookingItem key={booking.id} booking={booking} />
+              ))
+            ) : (
+              <p className="text-sm">Não há reservas confirmadas</p>
+            )}
+          </div>
         </div>
 
         <div className="space-y-2">
           <h2 className="section-title">Finalizados</h2>
-          {finishedBookings.length > 0 ? (
-            finishedBookings.map((booking) => (
-              <BookingItem key={booking.id} booking={booking} />
-            ))
-          ) : (
-            <p className="text-sm">Não há reservas finalizadas</p>
-          )}
+          <div className="flex flex-wrap gap-2">
+            {finishedBookings.length > 0 ? (
+              finishedBookings.map((booking) => (
+                <BookingItem key={booking.id} booking={booking} />
+              ))
+            ) : (
+              <p className="text-sm">Não há reservas finalizadas</p>
+            )}
+          </div>
         </div>
       </div>
     </>

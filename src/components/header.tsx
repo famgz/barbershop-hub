@@ -6,8 +6,8 @@ import Link from 'next/link';
 export default async function Header() {
   return (
     <header>
-      <Card>
-        <CardContent className="flex items-center justify-between p-4">
+      <Card className="">
+        <CardContent className="container flex items-center justify-between p-4">
           <Link href={'/'}>
             <Logo />
           </Link>
