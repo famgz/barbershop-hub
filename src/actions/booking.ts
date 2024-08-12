@@ -20,6 +20,7 @@ export async function createBooking(params: CreateBookingProps) {
   const res = await db.booking.create({
     data: { ...params, userId: user.id },
   });
+
   return plainify(res);
 }
 
@@ -55,4 +56,17 @@ export async function getBookingsByUser() {
   });
 
   return plainify(bookings);
+}
+
+export async function deleteBooking(bookingId: string) {
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+  if (!user) throw new Error('Usuário não autenticado');
+
+  await db.booking.delete({
+    where: { id: bookingId },
+  });
+
+  revalidatePath('/');
+  revalidatePath('/bookings');
 }

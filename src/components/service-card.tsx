@@ -18,8 +18,10 @@ import { formatCurrency } from '@/lib/utils';
 import { BarbershopService, Booking } from '@prisma/client';
 import { addDays, format, set } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { Router } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -82,6 +84,7 @@ interface Props {
 
 export default function ServiceCard({ service, barbershopName }: Props) {
   const { data } = useSession();
+  const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
@@ -141,10 +144,16 @@ export default function ServiceCard({ service, barbershopName }: Props) {
         date: newDate,
       });
 
-      toast.success('Reserva criada com sucesso');
+      toast.success('Reserva criada com sucesso', {
+        action: {
+          label: 'Ir para reservas',
+          type: Button,
+          onClick: () => router.push('/bookings'),
+        },
+      });
     } catch (err) {
       console.log(err);
-      toast.error('Erro ao criar reserva');
+      toast.error('Erro ao criar reserva', {});
     }
   }
 

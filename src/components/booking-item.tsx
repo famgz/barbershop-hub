@@ -1,31 +1,28 @@
+'use client';
+
 import BarbershopContactItem from '@/components/barbershop-contact-item';
 import BookingBadge from '@/components/booking-badge';
+import BookingCancelModal from '@/components/booking-cancel-modal';
 import BookingCard from '@/components/booking-card';
+import BookingRatingModal from '@/components/booking-rating-modal';
 import ServiceInfoCard from '@/components/service-info-card';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Button, buttonVariants } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { buttonVariants } from '@/components/ui/button';
 import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { Prisma } from '@prisma/client';
-import { format } from 'date-fns';
+import { format, isFuture } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface Props {
   booking: Prisma.BookingGetPayload<{
@@ -35,10 +32,12 @@ interface Props {
 
 export default function BookingItem({ booking }: Props) {
   const barbershop = booking.service.barbershop;
+  const isBookingConfirmed = isFuture(booking.date);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   return (
-    <Sheet>
-      <SheetTrigger asChild className="cursor-pointer">
+    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+      <SheetTrigger className="w-full cursor-pointer">
         <BookingCard booking={booking} />
       </SheetTrigger>
 
@@ -95,46 +94,23 @@ export default function BookingItem({ booking }: Props) {
           </div>
         </div>
 
-        <div className="flex gap-3 p-5">
+        {/* buttons */}
+        <SheetFooter className="flex-row gap-3 p-5">
           <SheetClose
             className={cn(buttonVariants({ variant: 'secondary' }), 'w-full')}
           >
             Voltar
           </SheetClose>
 
-          <Dialog>
-            <DialogTrigger>
-              <Button variant={'destructive'} className="w-full">
-                Cancelar Reserva
-              </Button>
-            </DialogTrigger>
-
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Cancelar Reserva</DialogTitle>
-              </DialogHeader>
-
-              <DialogDescription className="text-center text-muted-foreground">
-                Tem certeza que deseja cancelar esse agendamento?
-              </DialogDescription>
-
-              <div className="flex gap-2">
-                <DialogClose
-                  className={cn(
-                    buttonVariants({ variant: 'secondary' }),
-                    'w-full',
-                  )}
-                >
-                  Voltar
-                </DialogClose>
-
-                <Button variant={'destructive'} className="w-full">
-                  Confirmar
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
+          {isBookingConfirmed ? (
+            <BookingCancelModal
+              bookingId={booking.id}
+              callbackFn={() => setIsSheetOpen(false)}
+            />
+          ) : (
+            <BookingRatingModal bookingId={booking.id} />
+          )}
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

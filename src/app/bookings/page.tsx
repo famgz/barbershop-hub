@@ -21,21 +21,29 @@ export default async function BookingsPage() {
     <>
       <Header />
 
-      <div className="space-y-5 p-5">
+      <div className="space-y-6 p-5">
         <h1 className="text-xl font-semibold">Agendamentos</h1>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           <h2 className="section-title">Confirmados</h2>
-          {confirmedBookings.map((booking) => (
-            <BookingItem key={booking.id} booking={booking} />
-          ))}
+          {confirmedBookings.length > 0 ? (
+            confirmedBookings.map((booking) => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))
+          ) : (
+            <p className="text-sm">Não há reservas confirmadas</p>
+          )}
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           <h2 className="section-title">Finalizados</h2>
-          {finishedBookings.map((booking) => (
-            <BookingItem key={booking.id} booking={booking} />
-          ))}
+          {finishedBookings.length > 0 ? (
+            finishedBookings.map((booking) => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))
+          ) : (
+            <p className="text-sm">Não há reservas finalizadas</p>
+          )}
         </div>
       </div>
     </>
