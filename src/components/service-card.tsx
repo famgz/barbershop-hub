@@ -1,9 +1,11 @@
 'use client';
 
 import { createBooking, getBookings } from '@/actions/booking';
+import LoginDialog from '@/components/login-dialog';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import {
   Sheet,
   SheetClose,
@@ -81,13 +83,13 @@ interface Props {
 
 export default function ServiceCard({ service, barbershopName }: Props) {
   const { data } = useSession();
-  const router = useRouter();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<String | undefined>(
     undefined,
   );
   const [dayBookings, setDayBookings] = useState<Booking[]>([]);
   const [isBookingSheetOpen, setIsBookingSheetOpen] = useState(false);
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
 
   useEffect(() => {
     async function fetch() {
@@ -120,6 +122,10 @@ export default function ServiceCard({ service, barbershopName }: Props) {
     setSelectedTime(time);
   }
 
+  function handleBookingClick() {
+    data?.user ? setIsBookingSheetOpen(true) : setIsLoginDialogOpen(true);
+  }
+
   async function handleCreateBooking() {
     if (!(selectedDate && selectedTime && data?.user)) return;
 
@@ -145,157 +151,171 @@ export default function ServiceCard({ service, barbershopName }: Props) {
   }
 
   return (
-    <Card>
-      <CardContent className="flex items-center gap-3 p-3">
-        {/* Image */}
-        <div className="relative size-[110px] overflow-hidden rounded-lg">
-          <Image
-            src={service.imageUrl}
-            alt={service.name}
-            fill
-            className="object-cover"
-            sizes="110px"
-          />
-        </div>
+    <>
+      <Card>
+        <CardContent className="flex items-center gap-3 p-3">
+          {/* Image */}
+          <div className="relative size-[110px] overflow-hidden rounded-lg">
+            <Image
+              src={service.imageUrl}
+              alt={service.name}
+              fill
+              className="object-cover"
+              sizes="110px"
+            />
+          </div>
 
-        {/* Info */}
-        <div className="flex-1 space-y-2">
-          <h3 className="font-semibold">{service.name}</h3>
+          {/* Info */}
+          <div className="flex-1 space-y-2">
+            <h3 className="font-semibold">{service.name}</h3>
 
-          <p className="line-clamp-2 text-xs text-muted-foreground">
-            {service.description}
-          </p>
-
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-bold text-primary">
-              {formatCurrency(service.price)}
+            <p className="line-clamp-2 text-xs text-muted-foreground">
+              {service.description}
             </p>
 
-            <Sheet
-              open={isBookingSheetOpen}
-              onOpenChange={setIsBookingSheetOpen}
-            >
-              <SheetTrigger asChild>
-                <Button variant={'secondary'} size={'sm'}>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-bold text-primary">
+                {formatCurrency(service.price)}
+              </p>
+
+              <Sheet
+                open={isBookingSheetOpen}
+                onOpenChange={setIsBookingSheetOpen}
+              >
+                {/* <SheetTrigger asChild> */}
+                <Button
+                  variant={'secondary'}
+                  size={'sm'}
+                  onClick={handleBookingClick}
+                >
                   Reservar
                 </Button>
-              </SheetTrigger>
 
-              <SheetContent className="flex flex-col gap-0 p-0">
-                <SheetHeader className="border-b p-5">
-                  <SheetTitle>Fazer Reserva</SheetTitle>
-                </SheetHeader>
+                <SheetContent className="flex flex-col gap-0 p-0">
+                  <SheetHeader className="border-b p-5">
+                    <SheetTitle>Fazer Reserva</SheetTitle>
+                  </SheetHeader>
 
-                <div className="border-b p-5">
-                  <Calendar
-                    mode="single"
-                    locale={ptBR}
-                    selected={selectedDate}
-                    onSelect={handleDateSelect}
-                    fromDate={addDays(new Date(), 1)}
-                    styles={{
-                      head_cell: {
-                        width: '100%',
-                        textTransform: 'capitalize',
-                        fontSize: '10px',
-                      },
-                      cell: {
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '9999px',
-                      },
-                      button: {
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '9999px',
-                        fontSize: '12px',
-                      },
-                      nav_button_previous: {
-                        width: '32px',
-                        height: '32px',
-                      },
-                      nav_button_next: {
-                        width: '32px',
-                        height: '32px',
-                      },
-                      caption: {
-                        textTransform: 'capitalize',
-                      },
-                    }}
-                  />
-                </div>
+                  <div className="border-b p-5">
+                    <Calendar
+                      mode="single"
+                      locale={ptBR}
+                      selected={selectedDate}
+                      onSelect={handleDateSelect}
+                      fromDate={addDays(new Date(), 1)}
+                      styles={{
+                        head_cell: {
+                          width: '100%',
+                          textTransform: 'capitalize',
+                          fontSize: '10px',
+                        },
+                        cell: {
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '9999px',
+                        },
+                        button: {
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '9999px',
+                          fontSize: '12px',
+                        },
+                        nav_button_previous: {
+                          width: '32px',
+                          height: '32px',
+                        },
+                        nav_button_next: {
+                          width: '32px',
+                          height: '32px',
+                        },
+                        caption: {
+                          textTransform: 'capitalize',
+                        },
+                      }}
+                    />
+                  </div>
 
-                {/* timelist */}
-                {selectedDate && (
-                  <div className="hide-scrollbar overflow-x-auto border-b p-5">
-                    <div className="flex items-center gap-2">
-                      {getAvailableServiceTimes(dayBookings).map((time) => (
-                        <Button
-                          key={time}
-                          className="rounded-full text-xs"
-                          variant={
-                            time === selectedTime ? 'default' : 'outline'
-                          }
-                          onClick={() => handleTimeSelect(time)}
-                        >
-                          {time}
-                        </Button>
-                      ))}
+                  {/* timelist */}
+                  {selectedDate && (
+                    <div className="hide-scrollbar overflow-x-auto border-b p-5">
+                      <div className="flex items-center gap-2">
+                        {getAvailableServiceTimes(dayBookings).map((time) => (
+                          <Button
+                            key={time}
+                            className="rounded-full text-xs"
+                            variant={
+                              time === selectedTime ? 'default' : 'outline'
+                            }
+                            onClick={() => handleTimeSelect(time)}
+                          >
+                            {time}
+                          </Button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Resevation details */}
-                {selectedDate && selectedTime && (
-                  <div className="flex flex-1 flex-col justify-between gap-5 p-5">
-                    <Card>
-                      <CardContent className="space-y-2 p-3 text-xs font-light">
-                        <div className="flex items-center justify-between">
-                          <h2 className="font-semibold">{service.name}</h2>
-                          <p className="font-semibold">
-                            {formatCurrency(service.price)}
-                          </p>
-                        </div>
+                  {/* Resevation details */}
+                  {selectedDate && selectedTime && (
+                    <div className="flex flex-1 flex-col justify-between gap-5 p-5">
+                      <Card>
+                        <CardContent className="space-y-2 p-3 text-xs font-light">
+                          <div className="flex items-center justify-between">
+                            <h2 className="font-semibold">{service.name}</h2>
+                            <p className="font-semibold">
+                              {formatCurrency(service.price)}
+                            </p>
+                          </div>
 
-                        <div className="flex items-center justify-between">
-                          <h2 className="font-light text-muted-foreground">
-                            Data
-                          </h2>
-                          <p className="">
-                            {format(selectedDate, "d 'de' MMMM", {
-                              locale: ptBR,
-                            })}
-                          </p>
-                        </div>
+                          <div className="flex items-center justify-between">
+                            <h2 className="font-light text-muted-foreground">
+                              Data
+                            </h2>
+                            <p className="">
+                              {format(selectedDate, "d 'de' MMMM", {
+                                locale: ptBR,
+                              })}
+                            </p>
+                          </div>
 
-                        <div className="flex items-center justify-between">
-                          <h2 className="font-light text-muted-foreground">
-                            Horário
-                          </h2>
-                          <p className="">{selectedTime}</p>
-                        </div>
+                          <div className="flex items-center justify-between">
+                            <h2 className="font-light text-muted-foreground">
+                              Horário
+                            </h2>
+                            <p className="">{selectedTime}</p>
+                          </div>
 
-                        <div className="flex items-center justify-between">
-                          <h2 className="font-light text-muted-foreground">
-                            Barbearia
-                          </h2>
-                          <p className="">{barbershopName}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
+                          <div className="flex items-center justify-between">
+                            <h2 className="font-light text-muted-foreground">
+                              Barbearia
+                            </h2>
+                            <p className="">{barbershopName}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
 
-                    <SheetClose asChild>
-                      <Button className="w-full" onClick={handleCreateBooking}>
-                        Confirmar
-                      </Button>
-                    </SheetClose>
-                  </div>
-                )}
-              </SheetContent>
-            </Sheet>
+                      <SheetClose asChild>
+                        <Button
+                          className="w-full"
+                          onClick={handleCreateBooking}
+                        >
+                          Confirmar
+                        </Button>
+                      </SheetClose>
+                    </div>
+                  )}
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+
+      <Dialog open={isLoginDialogOpen} onOpenChange={setIsLoginDialogOpen}>
+        <DialogContent>
+          <LoginDialog />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

@@ -2,6 +2,7 @@
 
 import LoginGoogleButton from '@/components/buttons/login-google';
 import LogoutButton from '@/components/buttons/logout';
+import LoginDialog from '@/components/login-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
@@ -53,14 +54,8 @@ export default function SideBar() {
                       <LogInIcon />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="w-[90%] rounded">
-                    <DialogHeader>
-                      <DialogTitle>Faça login na plataforma</DialogTitle>
-                      <DialogDescription>
-                        Conecte-se usando sua conta do Google
-                      </DialogDescription>
-                    </DialogHeader>
-                    <LoginGoogleButton />
+                  <DialogContent className="">
+                    <LoginDialog />
                   </DialogContent>
                 </Dialog>
               </div>
