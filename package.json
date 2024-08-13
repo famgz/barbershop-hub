@@ -1,5 +1,5 @@
 {
-  "name": "fsw-barber-2",
+  "name": "barbershop-hub-2",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -22,10 +22,10 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
+    "barbershop-hub-2": "file:",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
-    "fsw-barber-2": "file:",
     "lucide-react": "^0.424.0",
     "next": "14.2.5",
     "next-auth": "^4.24.7",

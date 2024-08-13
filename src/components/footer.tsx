@@ -6,7 +6,7 @@ export default function Footer() {
       <Card>
         <CardContent className="container p-6">
           <p className="text-sm text-muted-foreground">
-            © 2024 Copyright <span className="font-bold">FSW Barber</span>
+            © 2024 <span className="font-bold">Barbershop Hub</span>
           </p>
         </CardContent>
       </Card>
