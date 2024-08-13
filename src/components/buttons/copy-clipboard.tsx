@@ -16,7 +16,10 @@ export default function CopyClipboardButton({ text, children }: Props) {
       size={'sm'}
       onClick={() => {
         navigator.clipboard.writeText(text);
-        toast.success('Telefone copiado', { duration: 1000 });
+        toast.success('Telefone copiado', {
+          duration: 1000,
+          position: 'top-center',
+        });
       }}
     >
       {children}

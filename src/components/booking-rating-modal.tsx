@@ -1,3 +1,6 @@
+'use client';
+
+import { updateBookingRating } from '@/actions/booking';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Dialog,
@@ -10,13 +13,31 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
+import { Booking } from '@prisma/client';
 import { StarIcon } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface Props {
-  bookingId: string;
+  booking: Booking;
 }
 
-export default function BookingRatingModal({ bookingId }: Props) {
+export default function BookingRatingModal({ booking }: Props) {
+  const [rating, setRating] = useState(booking.rating || 0);
+
+  async function handleSubmitClick() {
+    try {
+      await updateBookingRating({ bookingId: booking.id, rating });
+      toast.success('Serviço avaliado com sucesso', {
+        position: 'top-center',
+      });
+    } catch (err) {
+      toast.error('Erro ao avaliar o serviço. Tente novamente', {
+        position: 'top-center',
+      });
+    }
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,10 +56,18 @@ export default function BookingRatingModal({ bookingId }: Props) {
         </DialogDescription>
 
         <div className="flex-center gap-2">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <StarIcon className="fill-primary stroke-primary" key={i} />
+          {Array.from({ length: 5 }).map((_, i) => (
+            <StarIcon
+              key={i}
+              className={cn(
+                'cursor-pointer',
+                i + 1 <= rating
+                  ? 'fill-primary stroke-primary'
+                  : 'fill-none stroke-muted stroke-[1.5px]',
+              )}
+              onClick={() => setRating(i + 1)}
+            />
           ))}
-          <StarIcon className="fill-none stroke-muted stroke-[1.5px]" />
         </div>
 
         <DialogFooter className="flex-row gap-2">
@@ -50,6 +79,7 @@ export default function BookingRatingModal({ bookingId }: Props) {
 
           <DialogClose
             className={cn(buttonVariants({ variant: 'default' }), 'w-full')}
+            onClick={handleSubmitClick}
           >
             Confirmar
           </DialogClose>

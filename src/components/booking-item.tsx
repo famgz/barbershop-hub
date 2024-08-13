@@ -1,7 +1,7 @@
 'use client';
 
 import BarbershopContactItem from '@/components/barbershop-contact-item';
-import BookingBadge from '@/components/booking-badge';
+import BookingStatusBadge from '@/components/booking-badge';
 import BookingCancelModal from '@/components/booking-cancel-modal';
 import BookingCard from '@/components/booking-card';
 import BookingRatingModal from '@/components/booking-rating-modal';
@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils';
 import { Prisma } from '@prisma/client';
 import { format, isFuture } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -76,7 +77,28 @@ export default function BookingItem({ booking }: Props) {
 
           {/* booking details */}
           <div className="space-y-3">
-            <BookingBadge date={booking.date} />
+            <div className="flex items-center justify-between">
+              <BookingStatusBadge date={booking.date} />
+
+              {booking.rating && (
+                <div
+                  className="flex-center gap-1"
+                  title={`Avaliado em ${booking.rating}/5`}
+                >
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <StarIcon
+                      key={i}
+                      className={cn(
+                        'size-4',
+                        booking.rating && i + 1 <= booking.rating
+                          ? 'fill-primary stroke-primary'
+                          : 'fill-none stroke-muted stroke-[1.5px]',
+                      )}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
 
             <ServiceInfoCard
               service={booking.service}
@@ -108,7 +130,7 @@ export default function BookingItem({ booking }: Props) {
               callbackFn={() => setIsSheetOpen(false)}
             />
           ) : (
-            <BookingRatingModal bookingId={booking.id} />
+            <BookingRatingModal booking={booking} />
           )}
         </SheetFooter>
       </SheetContent>

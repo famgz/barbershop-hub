@@ -1,9 +1,11 @@
-import BookingBadge from '@/components/booking-badge';
+import BookingStatusBadge from '@/components/booking-badge';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Prisma } from '@prisma/client';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { StarIcon } from 'lucide-react';
 
 interface Props {
   booking: Prisma.BookingGetPayload<{
@@ -17,7 +19,16 @@ export default function BookingCard({ booking }: Props) {
       <CardContent className="flex p-0">
         {/* left column */}
         <div className="flex flex-1 flex-col gap-2 p-4 text-left">
-          <BookingBadge date={booking.date} />
+          <div className="flex items-center justify-between">
+            <BookingStatusBadge date={booking.date} />
+            {booking.rating && (
+              <Badge className="gap-1" variant={'outline'}>
+                <StarIcon size={12} className="fill-primary text-primary" />
+                <p>{booking.rating}.0</p>
+              </Badge>
+            )}
+          </div>
+
           <h3 className="font-semibold">{booking.service.name}</h3>
 
           <div className="flex items-center gap-2">

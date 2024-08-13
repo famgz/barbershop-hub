@@ -5,7 +5,7 @@ interface Props {
   date: Date;
 }
 
-export default function BookingBadge({ date }: Props) {
+export default function BookingStatusBadge({ date }: Props) {
   const isBookingPast = isPast(date);
   return (
     <Badge className="w-fit" variant={isBookingPast ? 'secondary' : 'default'}>

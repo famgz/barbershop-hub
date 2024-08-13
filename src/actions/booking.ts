@@ -1,10 +1,9 @@
 'use server';
 
-import { authOptions } from '@/lib/auth';
+import { getUserElseThrowError } from '@/actions/auth';
 import { db } from '@/lib/prisma';
 import { plainify } from '@/lib/utils';
 import { endOfDay, startOfDay } from 'date-fns';
-import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 
 interface CreateBookingProps {
@@ -13,9 +12,7 @@ interface CreateBookingProps {
 }
 
 export async function createBooking(params: CreateBookingProps) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
-  if (!user) throw new Error('Usuário não autenticado');
+  const user = await getUserElseThrowError();
 
   const res = await db.booking.create({
     data: { ...params, userId: user.id },
@@ -45,13 +42,13 @@ export async function getBookingsByDate({ serviceId, date }: GetBookingsProps) {
 }
 
 export async function getBookingsByUser() {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
-  if (!user) throw new Error('Usuário não autenticado');
+  const user = await getUserElseThrowError();
 
   const bookings = await db.booking.findMany({
     where: { userId: user.id },
-    include: { service: { include: { barbershop: true } } },
+    include: {
+      service: { include: { barbershop: true } },
+    },
     orderBy: { date: 'asc' },
   });
 
@@ -59,14 +56,35 @@ export async function getBookingsByUser() {
 }
 
 export async function deleteBooking(bookingId: string) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
-  if (!user) throw new Error('Usuário não autenticado');
+  await getUserElseThrowError();
 
   await db.booking.delete({
     where: { id: bookingId },
   });
 
   revalidatePath('/');
+  revalidatePath('/bookings');
+}
+
+interface UpdateBookingRatingProps {
+  bookingId: string;
+  rating: number;
+}
+
+export async function updateBookingRating({
+  bookingId,
+  rating,
+}: UpdateBookingRatingProps) {
+  await getUserElseThrowError();
+
+  await db.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: {
+      rating,
+    },
+  });
+
   revalidatePath('/bookings');
 }
