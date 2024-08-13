@@ -1,11 +1,11 @@
 import { getBookingsByUser } from '@/actions/booking';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import BarbershopCard from '@/components/barbershop-card';
 import BookingItem from '@/components/booking-item';
 import Header from '@/components/header';
 import SearchInput from '@/components/inputs/search';
 import { Button } from '@/components/ui/button';
 import { searchCategories } from '@/constants/categories';
+import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/prisma';
 import { plainify } from '@/lib/utils';
 import { format, isPast } from 'date-fns';
@@ -36,7 +36,7 @@ export default async function Home() {
         {/* Greetings */}
         <div className="space-y-1">
           <h2 className="text-xl font-bold">
-            {user ? `Olá, ${user.name.split(' ')[0]}` : 'Bem vindo'}!
+            {user ? `Olá, ${user.name!.split(' ')[0]}` : 'Bem vindo'}!
           </h2>
           <p className="text-sm">
             <span className="capitalize">

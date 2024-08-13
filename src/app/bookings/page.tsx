@@ -1,5 +1,5 @@
 import { getBookingsByUser } from '@/actions/booking';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import BookingItem from '@/components/booking-item';
 import Header from '@/components/header';
 import { isFuture, isPast } from 'date-fns';

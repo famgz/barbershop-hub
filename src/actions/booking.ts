@@ -1,6 +1,6 @@
 'use server';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { db } from '@/lib/prisma';
 import { plainify } from '@/lib/utils';
 import { endOfDay, startOfDay } from 'date-fns';
