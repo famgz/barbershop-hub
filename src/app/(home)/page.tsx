@@ -67,7 +67,7 @@ export default async function Home() {
         </div>
 
         {/* Banner */}
-        <div className="relative aspect-[700/300] h-auto max-h-[250px] w-full overflow-hidden rounded-xl">
+        <div className="relative aspect-[1050/450] h-auto max-h-[250px] w-full overflow-hidden rounded-xl">
           <Image
             src="/banner-01.png"
             alt="Agende com as melhores barbers"

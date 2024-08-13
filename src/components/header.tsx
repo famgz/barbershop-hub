@@ -1,4 +1,3 @@
-import Logo from '@/components/icons/logo';
 import SideBar from '@/components/sidebar';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
