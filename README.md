@@ -1,3 +1,44 @@
+## Barbershop Hub
+
+### Tecnologias utilizadas:
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React Logo" width="20"/> React
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" alt="Next.js Logo" width="20"/> Next.js + NextAuth.js
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" alt="Typescript Logo" width="20"/> TypeScript
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind CSS Logo" width="20"/> Tailwind CSS
+
+<img src="https://avatars.githubusercontent.com/u/139895814?s=200&v=4" alt="Shadcn/ui Logo" width="20"/> Shadcn/ui
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg" alt="Prisma Logo" width="20"/> Prisma
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" alt="Prisma Logo" width="20"/> PostgreSQL
+
+<img src="https://seeklogo.com/images/N/neon-icon-logo-1C3354A8E6-seeklogo.com.png" alt="Neon (DB) Logo" width="20"/> Neon (DB)
+
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg" alt="Vercel Logo" width="20"/> Vercel (Deploy)
+
+<br>
+
+### Screenshots:
+
+<br>
+
+<div style="display: flex; gap: 1rem; max-width: 768px; flex-wrap: wrap; justify-content: left">
+	<img src="https://raw.githubusercontent.com/famgz/famgz/main/presentations/barbershop-hub-2/0.jpg" height="400px"/>
+	<img src="https://raw.githubusercontent.com/famgz/famgz/main/presentations/barbershop-hub-2/1.jpg" height="400px"/>
+	<img src="https://raw.githubusercontent.com/famgz/famgz/main/presentations/barbershop-hub-2/2.jpg" height="400px"/>
+	<img src="https://raw.githubusercontent.com/famgz/famgz/main/presentations/barbershop-hub-2/3.jpg" height="400px"/>
+	<img src="https://raw.githubusercontent.com/famgz/famgz/main/presentations/barbershop-hub-2/4.jpg" height="400px"/>
+	<img src="https://raw.githubusercontent.com/famgz/famgz/main/presentations/barbershop-hub-2/5.jpg" height="400px"/>
+</div>
+
+<br>
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
