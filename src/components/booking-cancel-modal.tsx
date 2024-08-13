@@ -26,14 +26,10 @@ export default function BookingCancelModal({
   async function handleCancelBookingClick() {
     try {
       await deleteBooking(bookingId);
-      toast.success('Reserva cancelada com sucesso', {
-        position: 'top-center',
-      });
+      toast.success('Reserva cancelada com sucesso', {});
       onFinish();
     } catch (err) {
-      toast.error('Erro ao cencelar reserva', {
-        position: 'top-center',
-      });
+      toast.error('Erro ao cencelar reserva', {});
     }
   }
 

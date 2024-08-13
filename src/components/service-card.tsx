@@ -174,13 +174,10 @@ export default function ServiceCard({ service, barbershopName }: Props) {
           type: Button,
           onClick: () => router.push('/bookings'),
         },
-        position: 'top-center',
       });
     } catch (err) {
       console.log(err);
-      toast.error('Erro ao criar reserva', {
-        position: 'top-center',
-      });
+      toast.error('Erro ao criar reserva', {});
     }
   }
 
