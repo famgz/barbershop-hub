@@ -72,7 +72,7 @@ export default function SideBar() {
                 buttonVariants({ variant: 'ghost' }),
                 'justify-start gap-2',
               )}
-              onClick={() => router.push(`/bookings`)}
+              onClick={() => router.push(`/`)}
             >
               <HomeIcon size={18} />
               Início
