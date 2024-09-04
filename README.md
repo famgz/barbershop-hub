@@ -1,24 +1,19 @@
 ## Barbershop Hub
 
-### Tecnologias utilizadas:
+Fullstack application built with NextJS for reservation management from selected barbershops
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React Logo" width="20"/> React
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" alt="Next.js Logo" width="20"/> Next.js + NextAuth.js
+[![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white)](https://reactjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-4A90E2?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=flat-square&logo=shadcn&logoColor=white)](https://shadcn.dev/)
+[![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Auth.js](https://img.shields.io/badge/Auth.js-3B82F6?style=flat-square&logo=auth0&logoColor=white)](https://authjs.dev/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Neon](https://img.shields.io/badge/Neon-00AD9F?style=flat-square&logo=neon&logoColor=white)](https://neon.tech/)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com/)
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" alt="Typescript Logo" width="20"/> TypeScript
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind CSS Logo" width="20"/> Tailwind CSS
-
-<img src="https://avatars.githubusercontent.com/u/139895814?s=200&v=4" alt="Shadcn/ui Logo" width="20"/> Shadcn/ui
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg" alt="Prisma Logo" width="20"/> Prisma
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" alt="Prisma Logo" width="20"/> PostgreSQL
-
-<img src="https://seeklogo.com/images/N/neon-icon-logo-1C3354A8E6-seeklogo.com.png" alt="Neon (DB) Logo" width="20"/> Neon (DB)
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg" alt="Vercel Logo" width="20"/> Vercel (Deploy)
 
 <br>
 
